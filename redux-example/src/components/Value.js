@@ -19,7 +19,7 @@ class Value extends Component {
     render() {
         return (
             <div>
-                <h1>{this.props.number} </h1>
+                <h1>{this.props.number}</h1>
             </div>
         );
     }
