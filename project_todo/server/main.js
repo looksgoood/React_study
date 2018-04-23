@@ -10,6 +10,9 @@ import bodyParser from 'body-parser' // Parse html body
 import mongoose from 'mongoose';
 import session from 'express-session';
 
+// setup routers & static directory
+import api from './routes';
+
 const app = express();
 const port = 3000;
 const devPort = 4000;
@@ -34,6 +37,12 @@ app.use(session({
 /*
     Express Codes
 */
+app.use('/api', api);
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 if (process.env.NODE_ENV == 'development') {
     console.log('Server is running on development mode');
