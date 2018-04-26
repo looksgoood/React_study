@@ -1,10 +1,12 @@
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
     entry: [
         './src/index.js',
         'webpack-dev-server/client?http://0.0.0.0:4000',
-        'webpack/hot/only-dev-server'
+        'webpack/hot/only-dev-server',
+        './src/style.css'
     ],
 
     output: {
@@ -39,6 +41,10 @@ module.exports = {
             test: /\.js$/,
             use: 'babel-loader',
           },
+          {
+              test: /\.css$/,
+              loader: 'style-loader!css-loader'
+          }
         ],
     },
 
@@ -46,6 +52,9 @@ module.exports = {
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()
-    ]
+    ],
 
+    resolve: {
+        modules: [path.resolve('./src'), 'node_modules']  /* react 프로젝트의 root folder 설정 */
+    }
 };
