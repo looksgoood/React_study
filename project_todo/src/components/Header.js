@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const propTypes = {
     isLoggedIn: PropTypes.bool,
@@ -36,20 +37,22 @@ class Header extends Component {
         );
 
         return (
-            <nav>
-                <div className="nav_wrapper blue darken-1">
-                    <a className="brand-logo center">MEMOPAD</a>
+            <div>
+                <nav>
+                    <div className="nav_wrapper blue darken-1">
+                        <Link to="/" className="brand-logo center">MEMOPAD</Link>
 
-                    <ul>
-                        <li><a onClick={this.toggleSearch}><i className="meterial-icons">search</i></a></li>
-                    </ul>
-                    <div className="right">
                         <ul>
-                            { this.props.isLoggedIn ? logoutButton: loginButton }
+                            <li><a onClick={this.toggleSearch}><i className="meterial-icons">search</i></a></li>
                         </ul>
+                        <div className="right">
+                            <ul>
+                                { this.props.isLoggedIn ? logoutButton: loginButton }
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            </div>
         );
     }
 }
