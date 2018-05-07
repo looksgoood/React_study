@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Authentication } from 'components';
 
 const propTypes = {
 
@@ -19,7 +20,7 @@ class Register extends Component {
     render() {
         return (
             <div>
-                Register
+                <Authentication mode={false}/>
             </div>
         );
     }

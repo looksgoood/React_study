@@ -9,7 +9,6 @@ class App extends React.Component {
         return (
             <div>
                 {isAuth ? undefined : <Header />}
-                { this.props.children }
             </div>
         );
     }
