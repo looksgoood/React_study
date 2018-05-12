@@ -23,6 +23,8 @@ class Authentication extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
+        this.handleRegister = this.handleRegister.bind(this);
     }
 
     handleChange(e) {
@@ -33,8 +35,42 @@ class Authentication extends Component {
 
     handleKeyPress(e) {
         if (e.charCode === 13) {
-            // TODO
+            if (this.props.mode) {
+                this.handleLogin();
+            } else {
+                this.handleRegister();
+            }
         }
+    }
+
+    handleLogin() {
+        let id = this.state.username;
+        let pw = this.state.password;
+
+        this.props.onLogin(id, pw).then(
+            (success) => {
+                if (!success) {
+                    this.setState({
+                        password: ''
+                    });
+                }
+            }
+        );
+    }
+
+    handleRegister() {
+        let id = this.state.username;
+        let pw = this.state.password;
+
+        this.props.onRegister(id, pw).then(
+            (success) => {
+                if (!success) {
+                    this.setState({
+                        password: ''
+                    });
+                }
+            }
+        );
     }
 
     render() {

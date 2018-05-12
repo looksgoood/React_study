@@ -7,8 +7,8 @@ const Account = new Schema({
     username: String,
     password: String,
     createdA: {
-        type: Data,
-        default: Data.now
+        type: Date,
+        default: Date.now
     }
 });
 
