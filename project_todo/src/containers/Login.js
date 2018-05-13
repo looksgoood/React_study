@@ -11,6 +11,7 @@ class Login extends Component {
     }
 
     handleLogin(id, pw) {
+        console.log("in container login.");
         return this.props.loginRequest(id, pw).then(
             () => {
                 if (this.props.status == "SUCCESS") {
@@ -29,7 +30,8 @@ class Login extends Component {
                     Materialize.toast($toastContent, 2000);
                     return false;
                 }
-            });
+            }
+        );
     }
 
     render() {

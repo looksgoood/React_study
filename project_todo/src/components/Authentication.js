@@ -66,6 +66,7 @@ class Authentication extends Component {
             (success) => {
                 if (!success) {
                     this.setState({
+                        username: '',
                         password: ''
                     });
                 }
