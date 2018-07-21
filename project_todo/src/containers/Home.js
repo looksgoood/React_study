@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Write } from 'components';
 import PropTypes from 'prop-types';
 
 const propTypes = {
@@ -17,9 +19,10 @@ class Home extends Component {
         }
     }
     render() {
+        const write = ( <Write/> );
         return (
-            <div>
-                Home
+            <div className="wrapper">
+                { this.props.isLoggedIn ? write : undefined }
             </div>
         );
     }
@@ -29,4 +32,10 @@ class Home extends Component {
 Home.propTypes = propTypes;
 Home.defaultProps = defaultProps;
 
-export default Home;
+const mapStateToProps = (state) => {
+    return {
+        isLoggedIn: state.authentication.status.isLoggedIn
+    }
+}
+
+export default connect(mapStateToProps) (Home);

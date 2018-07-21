@@ -3,6 +3,7 @@ import { hot } from 'react-hot-loader';
 import { Header } from 'components';
 import { connect } from 'react-redux';
 import { getStatusRequest, logoutRequest } from 'actions/authentication';
+import { Home } from 'containers';
 
 class App extends React.Component {
     constructor(props) {
@@ -77,6 +78,7 @@ class App extends React.Component {
                 {isAuth ? undefined : <Header 
                     isLoggedIn={this.props.status.isLoggedIn}
                     onLogout={this.handleLogout}/>}
+                <Home />
             </div>
         );
     }
