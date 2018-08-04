@@ -17,12 +17,24 @@ class Write extends Component {
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.handlePost = this.handlePost.bind(this);
     }
 
     handleChange(e) {
         this.setState({
             contents: e.target.value
         });
+    }
+
+    handlePost() {
+        let contents = this.state.contents;
+        this.props.onPost(contents).then(
+            () => {
+                this.setState({
+                    contents: ""
+                });
+            }
+        );
     }
 
     render() {
@@ -37,7 +49,7 @@ class Write extends Component {
                             onChange={this.handleChange}></textarea>
                     </div>
                     <div className="card-action">
-                        <a>POST</a>
+                        <a onClick={this.handlePost}>POST</a>
                     </div>
                 </div>
             </div>
