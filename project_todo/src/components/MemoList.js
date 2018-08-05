@@ -22,6 +22,7 @@ class MemoList extends Component {
     render() {
         const mapToCompopnents = (data) => {
             return data.map((memo, i) => {
+                console.log("memo : ", memo.writer, "cur : ", this.props.currentUser);
                 return (
                     <Memo
                         data={memo}
