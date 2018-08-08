@@ -19,14 +19,45 @@ class Home extends Component {
 
         };
         this.handlePost = this.handlePost.bind(this);
+        this.loadNewMemo = this.loadNewMemo.bind(this);
     }
 
     componentDidMount() {
+        // Load new memo every 5 seconds
+        const loadMemoLoop = () => {
+            this.loadNewMemo().then(
+                () => {
+                    this.memoLoaderTimeoutId = setTimeout(loadMemoLoop, 5000);
+                }
+            );
+        }
+
         this.props.memoListRequest(true).then(
             () => {
-                console.log(this.props.memoData);
+                loadMemoLoop();
             }
         );
+    }
+
+    componentWillUnmount() {
+        // Stop the loadMemoLoop
+        clearTimeout(this.memoLoaderTimeoutId);
+    }
+
+    loadNewMemo() {
+        // Cancel if there is  a pending request
+        if (this.props.listStatus === 'WAITING') {
+            return new Promise((resolve, reject) => {
+                resolve();
+            });
+        }
+
+        // If page is empty, do the initial loading
+        if (this.props.memoData.length === 0) {
+            return this.props.memoListRequest(true);
+        }
+
+        return this.props.memoListRequest(false, 'new', this.props.memoData[0]._id);
     }
 
     /* POST MEMO */
@@ -35,8 +66,11 @@ class Home extends Component {
             () => {
                 if (this.props.postStatus.status === "SUCCESS") {
                     // TRIGGER LOAD NEW MEMO
-                    // TO BE IMPLEMENTED
-                    Materialize.toast('Success!', 2000);
+                    this.loadNewMemo().then(
+                        () => {
+                            Materialize.toast('Success!', 2000);
+                        }
+                    )
                 } else {
                     /*
                         ERROR CODES
@@ -77,7 +111,6 @@ class Home extends Component {
             </div>
         );
     }
-
 }
 
 Home.propTypes = propTypes;
@@ -88,9 +121,10 @@ const mapStateToProps = (state) => {
         isLoggedIn: state.authentication.status.isLoggedIn,
         postStatus: state.memo.post,
         currentUser: state.authentication.status.currentUser,
-        memoData: state.memo.list.data
-    }
-}
+        memoData: state.memo.list.data,
+        listStatus: state.memo.list.status
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -100,7 +134,7 @@ const mapDispatchToProps = (dispatch) => {
         memoListRequest: (isInitial, listType, id, username) => {
             return dispatch(memoListRequest(isInitial, listType, id, username));
         }
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps) (Home);
