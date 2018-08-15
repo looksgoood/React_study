@@ -100,7 +100,7 @@ router.put('/:id', (req, res) => {
 
         memo.save((err) => {
             if (err) throw errr;
-            return req.json({
+            return res.json({
                 success: true,
                 memo
             });
