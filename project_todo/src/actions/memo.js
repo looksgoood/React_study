@@ -7,7 +7,10 @@ import {
     MEMO_LIST_FAILURRE,
     MEMO_EDIT,
     MEMO_EDIT_SUCCESS,
-    MEMO_EDIT_FAILURRE
+    MEMO_EDIT_FAILURRE,
+    MEMO_REMOVE,
+    MEMO_REMOVE_SUCCESS,
+    MEMO_REMOVE_FAILURRE
 } from './ActionTypes';
 import axios from 'axios';
 
@@ -99,11 +102,10 @@ export function memoListFailure() {
     };
 }
 
-
 /* MEMO_EDIT */
 export function memoEditRequest(id, index, contents) {
     return (dispatch) => {
-        // inform memo list API is starting
+        // inform memo edit API is starting
         dispatch(memoEdit());
         
         return axios.put('api/memo/' + id, { contents })
@@ -136,4 +138,37 @@ export function memoEditFailure(error) {
     };
 }
 
+/* MEMO_REMOVE */
+export function memoRemoveRequest(id, index) {
+    return (dispatch) => {
+        // inform memo remove API is starting
+        dispatch(memoRemove());
+        
+        return axios.delete('api/memo/' + id)
+            .then((response) => {
+                dispatch(memoRemoveSuccess(index));
+            }).catch((error) => {
+                dispatch(memoRemoveFailure(error.response.data.code));
+            });
+    }
+}
 
+export function memoRemove() {
+    return {
+        type: MEMO_REMOVE
+    };
+}
+
+export function memoRemoveSuccess(index) {
+    return {
+        type: MEMO_REMOVE_SUCCESS,
+        index
+    };
+}
+
+export function memoRemoveFailure(error) {
+    return {
+        type: MEMO_REMOVE_FAILURRE,
+        error
+    };
+}
